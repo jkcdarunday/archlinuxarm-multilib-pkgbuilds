@@ -1,0 +1,17 @@
+pkgname=lib32-gcc-libs
+pkgver=12.1.0
+pkgrel=2.1
+pkgdesc="32-bit runtime libraries shipped by GCC"
+arch=('aarch64')
+url="https://gcc.gnu.org"
+license=('GPL')
+provides=('libgo.so'  'libgfortran.so'  'libubsan.so'  'libasan.so')
+depends=('lib32-glibc')
+source=("http://mirror.archlinuxarm.org/armv7h/core/gcc-libs-$pkgver-$pkgrel-armv7h.pkg.tar.xz")
+sha512sums=('SKIP')
+options=(!strip)
+
+package() {
+    install -dm755 $pkgdir/usr
+    cp -a $srcdir/usr/lib $pkgdir/usr/lib32
+}

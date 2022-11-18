@@ -1,0 +1,26 @@
+pkgname=lib32-glibc
+pkgver=2.35
+pkgrel=5.1
+pkgdesc="GNU C Library (32-bit)"
+arch=('aarch64')
+url="https://www.gnu.org/software/libc/"
+license=('GPL')
+depends=('glibc')
+source=("http://mirror.archlinuxarm.org/armv7h/core/glibc-$pkgver-$pkgrel-armv7h.pkg.tar.xz")
+sha512sums=('SKIP')
+options=(!strip)
+
+package() {
+    install -dm755 $pkgdir/usr
+    cp -a $srcdir/usr/lib $pkgdir/usr/lib32
+
+    install -dm644 $pkgdir/usr/usr/include/gnu
+    install -Dm644 $srcdir/usr/include/gnu/stubs.h $pkgdir/usr/include/gnu/stubs-32.h
+    install -Dm644 $srcdir/usr/include/gnu/lib-names.h $pkgdir/usr/include/gnu/lib-names-32.h
+
+    install -dm755 $pkgdir/etc/ld.so.conf.d
+    echo "/usr/lib32" > $pkgdir/etc/ld.so.conf.d/lib32-glibc.conf
+
+    install -dm755 $pkgdir/usr/lib
+    mv $pkgdir/usr/lib32/ld-linux-armhf.so.3 $pkgdir/usr/lib/ld-linux-armhf.so.3
+}
